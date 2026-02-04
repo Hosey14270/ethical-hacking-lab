@@ -1,0 +1,21 @@
+# Lab Setup
+
+## Objective
+The purpose of this lab is to simulate an end-to-end penetration test against intentionally vulnerable systems in a controlled environment.
+
+## Scope & Authorization
+- All targets are intentionally vulnerable virtual machines.
+- The lab is isolated and not connected to production or external networks.
+- All testing is performed on systems I own or have explicit permission to test.
+
+## Attacker Machine
+- OS: Kali Linux
+- Role: Attacker workstation
+
+## Target Machines
+- Metasploitable 2 (Linux)
+- Additional targets will be added later (DVWA, Windows lab)
+
+## Evidence
+All screenshots and proof-of-exploitation will be stored in the `evidence/` directory.
+
