@@ -51,3 +51,4 @@ Open ports identified:
 - Large attack surface
 - High likelihood of remote code execution vulnerabilities
 - Legacy Linux kernel (2.6.x)
+- nmap --script=http-enum -p 80 192.168.112.130
