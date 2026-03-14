@@ -52,3 +52,30 @@ Open ports identified:
 - High likelihood of remote code execution vulnerabilities
 - Legacy Linux kernel (2.6.x)
 - nmap --script=http-enum -p 80 192.168.112.130
+## Evidence
+
+The following screenshots document the reconnaissance findings during this lab.
+
+### Network Scan
+![Network Scan](evidence/network-scan.png)
+
+### Port Scan
+![Port Scan](evidence/port-scan.png)
+
+### Directory Listing
+![Directory Listing](evidence/directory-listing-test.png)
+
+### Metasploitable Homepage
+![Metasploitable Homepage](evidence/metasploitable-homepage.png)
+
+### PHP Info Exposure
+![PHP Info](evidence/phpinfo.png)
+
+### phpMyAdmin Login Page
+![phpMyAdmin Login](evidence/phpmyadmin-login.png)
+
+### TikiWiki Database Error
+![TikiWiki Error](evidence/tikiwiki-db-error.png)
+
+### DVWA Command Execution
+![DVWA Command Execution](evidence/dvwa-command-execution.png)
