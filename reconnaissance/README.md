@@ -1,81 +1,184 @@
-# Reconnaissance Phase
+# 🔐 DVWA Command Injection Exploitation Lab
 
-## Target Information
+## 📌 Overview
 
-- Target IP: 192.168.112.130
-- Attacker IP: 192.168.112.129
-- Network: 192.168.112.0/24
-- Target System: Metasploitable 2
+This project demonstrates the identification and exploitation of a **Command Injection vulnerability** using the Damn Vulnerable Web Application (DVWA) in a controlled lab environment.
 
----
-
-## Host Discovery
-
-Command used:
-
-nmap -sn 192.168.112.130
-
-Result:
-- Host is up
-- Responding to ICMP
-- Network distance: 1 hop
+The goal of this lab is to understand how improper input validation can allow attackers to execute system-level commands on a web server.
 
 ---
 
-## Service Enumeration
+## 🎯 Objectives
 
-Command used:
-
-nmap -sS -sV -O 192.168.112.130
-
-Open ports identified:
-- 21 (FTP - vsftpd 2.3.4)
-- 22 (SSH)
-- 23 (Telnet)
-- 25 (SMTP)
-- 53 (DNS)
-- 80 (HTTP - Apache 2.2.8)
-- 139 / 445 (Samba)
-- 1524 (Bindshell)
-- 3306 (MySQL)
-- 5432 (PostgreSQL)
-- 5900 (VNC)
-- 6667 (IRC)
-- 8180 (Tomcat)
+* Identify input validation vulnerabilities
+* Exploit Command Injection in DVWA
+* Execute system commands on the target machine
+* Understand the impact of Remote Command Execution (RCE)
 
 ---
 
-## Initial Observations
+## 🧪 Lab Setup
 
-- Multiple outdated services
-- Large attack surface
-- High likelihood of remote code execution vulnerabilities
-- Legacy Linux kernel (2.6.x)
-- nmap --script=http-enum -p 80 192.168.112.130
-## Evidence
+| Component        | Details                                |
+| ---------------- | -------------------------------------- |
+| Attacker Machine | Kali Linux                             |
+| Target Machine   | Metasploitable2                        |
+| Vulnerable App   | DVWA (Damn Vulnerable Web Application) |
+| Target IP        | 192.168.112.130                        |
+| Tool Used        | Web Browser, Burp Suite (optional)     |
 
-The following screenshots document the reconnaissance findings during this lab.
+---
 
-### Network Scan
-![Network Scan](evidence/network-scan.png)
+## 🔍 Vulnerability Description
 
-### Port Scan
-![Port Scan](evidence/port-scan.png)
+Command Injection occurs when user input is not properly sanitized and is executed by the system shell.
 
-### Directory Listing
-![Directory Listing](evidence/directory-listing-test.png)
+In DVWA, the **Command Execution module** allows users to input an IP address to ping. However, the input is not validated, making it vulnerable to command injection.
 
-### Metasploitable Homepage
-![Metasploitable Homepage](evidence/metasploitable-homepage.png)
+---
 
-### PHP Info Exposure
-![PHP Info](evidence/phpinfo.png)
+## 🚀 Exploitation Steps
 
-### phpMyAdmin Login Page
-![phpMyAdmin Login](evidence/phpmyadmin-login.png)
+### 1️⃣ Access DVWA
 
-### TikiWiki Database Error
-![TikiWiki Error](evidence/tikiwiki-db-error.png)
+* Navigate to DVWA login page
+* Login using default credentials:
 
-### DVWA Command Execution
-![DVWA Command Execution](evidence/dvwa-command-execution.png)
+  * Username: `admin`
+  * Password: `password`
+
+---
+
+### 2️⃣ Navigate to Command Execution
+
+* Go to:
+
+```
+DVWA → Command Execution
+```
+
+---
+
+### 3️⃣ Normal Input Test
+
+Input:
+
+```
+127.0.0.1
+```
+
+📸 **Result:**
+
+* The application performs a normal ping request
+
+---
+
+### 4️⃣ Exploit the Vulnerability
+
+Injected Payload:
+
+```
+127.0.0.1; id
+```
+
+---
+
+### 5️⃣ Successful Exploitation
+
+📸 **Result:**
+
+```
+uid=33(www-data) gid=33(www-data)
+```
+
+---
+
+## 🧠 Explanation
+
+* `;` allows chaining of commands in Linux
+* `id` is a system command that reveals the current user
+* The server executed both:
+
+  * `ping 127.0.0.1`
+  * `id`
+
+This confirms **Remote Command Execution (RCE)**
+
+---
+
+## ⚠️ Impact
+
+* Attackers can execute arbitrary system commands
+* Potential full system compromise
+* Data leakage and privilege escalation
+* Server takeover
+
+---
+
+## 🛡️ Mitigation
+
+* Validate and sanitize all user inputs
+* Use allowlists instead of blocklists
+* Avoid direct system command execution
+* Implement proper input escaping
+* Use secure coding practices
+
+---
+
+## 🧰 Tools Used
+
+* Kali Linux
+* DVWA
+* Metasploitable2
+* Burp Suite (for interception)
+
+---
+
+## 📸 Screenshots
+
+### 🔹 DVWA Login Page
+
+![DVWA Login](./evidence/dvwa-login.png)
+
+### 🔹 Normal Input (No Exploit)
+
+![Normal Input](./evidence/normal-input.png)
+
+### 🔹 Injected Payload
+
+![Payload](./evidence/payload.png)
+
+### 🔹 Successful Command Execution
+
+![Exploit Result](./evidence/exploit-result.png)
+
+### 🔹 Burp Suite Interception (Optional)
+
+![Burp](./evidence/burp-request.png)
+
+---
+
+## 📚 Key Takeaways
+
+* Input validation is critical in web security
+* Command Injection can lead to full system compromise
+* Even simple applications can have severe vulnerabilities
+* Hands-on labs are essential for learning cybersecurity
+
+---
+
+## 👨‍💻 Author
+
+**Osi Itseuwa**
+Aspiring Cybersecurity Analyst
+
+---
+
+## 🚀 Next Steps
+
+* Perform SQL Injection testing
+* Explore XSS vulnerabilities
+* Practice privilege escalation
+* Build more hands-on labs
+
+---
